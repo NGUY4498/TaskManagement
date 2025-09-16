@@ -4,7 +4,6 @@ import org.example.webtasks.Model.Tasks;
 import org.example.webtasks.Repository.TaskRepository;
 import org.example.webtasks.Service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,10 +14,10 @@ public class TaskServiceImpl implements TaskService{
     public TaskServiceImpl(TaskRepository taskRepository) {
         this.taskRepository = taskRepository;
     }
-    List<TaskDto> taskDtos = new ArrayList<>();
 
     @Override
     public List<TaskDto> findAllTasks(){
+        List<TaskDto> taskDtos = new ArrayList<>();
         List<Tasks> tasks = taskRepository.findAll();
         for(Tasks task : tasks){
             taskDtos.add(mapToTaskDto(task));
@@ -26,12 +25,12 @@ public class TaskServiceImpl implements TaskService{
         return taskDtos;
     }
 
-    private TaskDto mapToTaskDto(Tasks task){
-        return TaskDto.builder()
-                .id(task.getId())
-                .taskName(task.getTaskName())
-                .date(task.getDate())
-                .isCompleted(task.getIsCompleted())
-                .build();
+    private TaskDto mapToTaskDto(Tasks task) {
+        TaskDto dto = new TaskDto();
+        dto.setId(task.getId());
+        dto.setTaskName(task.getTaskName());
+        dto.setDate(task.getDate());
+        dto.setIsCompleted(task.getIsCompleted());
+        return dto;
     }
 }
